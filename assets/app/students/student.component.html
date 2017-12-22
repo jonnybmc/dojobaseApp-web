@@ -1,0 +1,36 @@
+<!-- <div class="col-md-3">
+   <article class="panel panel-default">
+        <div class="panel-body">
+            <img src="{{student.avatarSrc}}" alt=""/>
+            {{student.firstName}} {{student.lastName}} {{student.studentId}}
+        </div>
+        <footer class="panel-footer">
+            <div class="author">
+                {{student.city}}
+            </div>
+            <div class="config">
+                <a (click)="onEdit()" href="">Edit</a>
+                <a (click)="onDelete()" href="">Delete</a>
+                <a [routerLink]="['/students', student.studentId]">View details</a>
+            </div>
+        </footer>
+    </article> 
+</div> -->
+<div class="col-md-4">
+<div class="media" style="border: 1px solid #dadada;padding: 1rem;border-radius: 6px;background: #f5f5f5;">
+        <div class="media-left">
+          <a href="#">
+            <img class="media-object" src="{{student.avatarSrc}}" alt="student-avatar" style="width:100px;height:auto;">
+          </a>
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading" style="font-weight:bold"> {{student.firstName}} {{student.lastName}} </h4>
+          <p>{{student.rank}}</p>
+          <div class="config" style="font-size:11px">
+                <a (click)="onEdit()" href="">Edit</a> |
+                <a (click)="onDelete()" href="">Delete</a> | 
+                <a [routerLink]="['/students', student.studentId]">View details</a>
+        </div>
+        </div>
+      </div>
+</div>

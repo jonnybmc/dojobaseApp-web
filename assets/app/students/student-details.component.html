@@ -1,0 +1,136 @@
+
+<div class="row">
+    <div class="col-md-2">
+        <div class="avatar-box">
+                <img class="img-responsive" src="{{student.avatarSrc}}" alt="student-avatar">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h1 class="avatar_name">{{student.firstName}} {{student.lastName}} </h1>
+        <div class="avatar_details">
+            <p>Student id is</p>
+            <p>{{student.studentId}}</p>
+            <p class="heading">Age</p>
+            <p></p>
+        </div>
+        <div class="student-edit">
+            <button (click)="openModal('custom-modal-1')">Edit Details</button>
+            <button (click)="openModal('custom-modal-2')">Open Modal 2</button>
+        </div>
+    </div>
+
+    <app-modal id="custom-modal-1">
+        <div class="modal">
+            <div class="modal-body">
+                    <form ngNativeValidate (ngSubmit)="onSubmit(studentForm)" #studentForm="ngForm" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" class="form-control" [ngModel]="student.firstName" name="firstName">
+                        </div>
+                        <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" class="form-control" [ngModel]="student.lastName" name="lastName">
+                        </div>
+                        <div class="form-group">
+                                <label for="gender">Gender</label>
+                                <input type="text" id="gender" class="form-control" [ngModel]="student.gender" name="gender">
+                        </div>
+                        <div class="form-group">
+                                <label for="contactNumber">Contact Number</label>
+                                <input type="text" id="contactNumber" class="form-control" [ngModel]="student.contactNumber" name="contactNumber">
+                        </div>
+                        <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" class="form-control" [ngModel]="student.email" name="email">
+                        </div>
+                        <div class="form-group">
+                                <label for="dateOfBirth">Date of Birth</label>
+                                <input type="text" id="dateOfBirth" class="form-control" [ngModel]="student.dateOfBirth" name="dateOfBirth">
+                        </div>
+                        <div class="form-group">
+                                <label for="streetAddress">Street Address</label>
+                                <input type="text" id="streetAddress" class="form-control" [ngModel]="student.streetAddress" name="streetAddress">
+                        </div>
+                        <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" class="form-control" [ngModel]="student.city" name="city">
+                        </div>
+                        <div class="form-group">
+                                <label for="zip">Zip Code</label>
+                                <input type="text" id="zip" class="form-control" [ngModel]="student.zipCode" name="zip">
+                        </div>
+                        <div class="form-group">
+                            <label for="rank">Rank</label>
+                            <input type="text" id="rank" class="form-control" [ngModel]="student.rank" name="rank">
+                        </div>
+                        <!-- <div class="form-group">
+                               <label for="avatar">Upload Profile image</label>
+                               <input type="file" accept="image/*" id="avatar" class="form-control" name="avatar" (change)="fileChange($event)">
+                               <img src={{this.image}} alt="">
+                        </div> -->
+                        <button type="button" class="btn btn-danger" (click)="onClear(studentForm)">Clear</button>
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </form> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <p>
+                         <input type="text" [(ngModel)]="student.firstName" />
+                    </p>
+                    <p>
+                        Last Name <input type="text" [(ngModel)]="student.lastName" />
+                    </p>
+                    <p>
+                            Last Name <input type="text" [(ngModel)]="student.lastName" />
+                    </p>
+                    <p>
+                            Last Name <input type="text" [(ngModel)]="student.lastName" />
+                    </p>
+                    <p>
+                            Last Name <input type="text" [(ngModel)]="student.lastName" />
+                    </p>
+                    <p>
+                            Last Name <input type="text" [(ngModel)]="student.lastName" />
+                    </p>
+                    <p>
+                            Last Name <input type="text" [(ngModel)]="student.lastName" />
+                    </p>
+                    <p>
+                            Last Name <input type="text" [(ngModel)]="student.lastName" />
+                    </p>
+
+                   
+                <h1>A Custom Modal!</h1>
+                
+                <button (click)="closeModal('custom-modal-1',$event);">Close</button>
+            </div>
+        </div>
+        <div class="modal-background"></div>
+    </app-modal>
+    <!-- {{student.studentId}} -->
+   
+</div>
+
+
+
