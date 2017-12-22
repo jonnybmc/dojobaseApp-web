@@ -1,5 +1,8 @@
+import { AuthService } from './auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
+import { User } from './user.model';
+import { Router } from '@angular/router';
 @Component({
     selector: 'app-signin',
     templateUrl:'signin.component.html'
@@ -7,8 +10,24 @@ import { Component } from '@angular/core';
 export class SigninComponent{
     myForm : FormGroup;
     
+        constructor(private authService : AuthService, private router: Router) {
+
+        }
         onSubmit(){
-            console.log(this.myForm);
+            const user = new User(
+                this.myForm.value.email,
+                this.myForm.value.password
+            );
+            this.authService.signin(user)
+            .subscribe(
+                data => {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('userId', data.userId);
+                    this.router.navigateByUrl('/students');
+                },
+                error => console.error(error)
+            );
+            // console.log(this.myForm);
             this.myForm.reset();
         }
         ngOnInit(){
