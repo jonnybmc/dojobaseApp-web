@@ -1,21 +1,32 @@
+import { AuthService } from './auth.service';
 import { Component } from '@angular/core';
+import { OnInit } from '@angular/core';
 @Component({
     selector : 'app-authentication',
     template: `
         <header class="row spacing">
         <nav class="col-md-8 col-md-offset-2">
             <ul class="nav nav-tabs">
-                <li><a [routerLink]="['signup']">Signup</a></li>
-                <li><a [routerLink]="['signin']">Signin</a></li>
-                <li><a [routerLink]="['logout']">Logout</a></li>
+                <li routerLinkActive="active"><a [routerLink]="['signup']">Signup</a></li>
+                <li routerLinkActive="active" *ngIf="!isLoggedIn()"><a [routerLink]="['signin']">Signin</a></li>
+                <li routerLinkActive="active" *ngIf="isLoggedIn()"><a [routerLink]="['logout']">Logout</a></li>
             </ul>
         </nav>
-        </header>
+        </header> 
         <div class="row spacing">
             <router-outlet></router-outlet>
         </div>
     `
 })
-export class AuthenticationComponent{
+export class AuthenticationComponent implements OnInit{
+    constructor(private authService: AuthService) {
+
+    }
+    isLoggedIn(){
+        return this.authService.isLoggedIn();
+    }
+    ngOnInit(){
+
+    }
 
 }
