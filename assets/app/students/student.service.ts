@@ -12,8 +12,7 @@ export class StudentService {
     
     constructor(private http: Http) {
     
-    }
-    
+    } 
     addStudent(student: Student){
         // this.messages.push(message); // just pushing to the front end, the post will actually persist the data to the dB
 
@@ -27,13 +26,12 @@ export class StudentService {
                 const result = response.json();
                 // const student = new Student(result.obj.content,'Dummy',result.obj._id,null);
                 const student = new Student(result.obj.firstName,result.obj.lastName,result.obj.gender,result.obj.dateOfBirth,result.obj.streetAddress,
-                result.obj.city,result.obj.zipCode,result.obj.contactNumber,result.obj.email,result.obj.avatarSrc,result.obj._id);
+                result.obj.city,result.obj.zipCode,result.obj.contactNumber,result.obj.email,result.obj.avatarSrc,result.obj._id, result.obj.createdBy.firstName, result.obj.createdBy._id);
                 this.students.push(student);
                 return student;
             })
             .catch((error: Response) => Observable.throw(error.json()));// request not sent as yet, only sets up an observable
     }
-
     getStudents(){
         return this.http.get('http://localhost:3000/student')
             .map((response:Response) => {
@@ -53,7 +51,9 @@ export class StudentService {
                             student.contactNumber,
                             student.email,
                             student.avatarSrc,
-                            student._id
+                            student._id,
+                            student.createdBy.firstName,
+                            student.createdBy._id
                             ));
                 }
                 this.students = transformedStudents;
@@ -61,7 +61,6 @@ export class StudentService {
             })
             .catch((error:Response) => Observable.throw(error.json()));
     }
-
     getStudent(studentId : string) {
         return this.http.get('http://localhost:3000/student/' + studentId).map((response:Response) =>{
             const student = response.json().obj;
@@ -77,7 +76,9 @@ export class StudentService {
                 student.contactNumber,
                 student.email,
                 student.avatarSrc,
-                student._id
+                student._id,
+                student.createdBy.firstName,
+                student.createdBy._id
             );
             this.student = transformedStudent;
             return this.student;
@@ -85,33 +86,6 @@ export class StudentService {
         .catch((error:Response) => Observable.throw(error.json()));
 
     }
-
-    // getMessages(){
-    //     // return this.messages;
-    //     return this.http.get('http://localhost:3000/message')
-    //     .map((response: Response) => {
-    //         const messages = response.json().obj;
-    //         let transformedMessages: Message[] = [];
-    //         for (let message of messages) {
-    //             transformedMessages.push(new Message(message.content, 'Dummy',message._id, null))
-    //         }
-    //         this.messages = transformedMessages;
-    //         return transformedMessages;
-    //     })
-    //     .catch((error: Response) => Observable.throw(error.json()));
-    // }
-
-    // deleteMessage(message: Message){
-    //     this.messages.splice(this.messages.indexOf(message),1);
-
-    //     return this.http.delete('http://localhost:3000/message/' + message.messageId)
-    //     .map((response: Response) => response.json())
-    //     .catch((error:Response) => Observable.throw(error.json()));
-    // }
-
-    // editMessage(message: Message) {
-    //     this.messageIsEdit.emit(message);    }
-
     deleteStudent(student: Student) {
         this.students.splice(this.students.indexOf(student),1);
         const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';

@@ -27,10 +27,12 @@
           <h4 class="media-heading" style="font-weight:bold"> {{student.firstName}} {{student.lastName}} </h4>
           <p>{{student.rank}}</p>
           <div class="config" style="font-size:11px">
-                <a (click)="onEdit()" href="">Edit</a> |
-                <a (click)="onDelete()" href="">Delete</a> | 
+                <!-- <a (click)="onEdit()" href="">Edit</a> | -->
+                <a (click)="onDelete()" href="" *ngIf="belongsToUser()">Delete</a> | 
                 <a [routerLink]="['/students', student.studentId]">View details</a>
         </div>
+        <p>Created by:</p>
+        <p>{{student.createdBy}}</p>
         </div>
       </div>
 </div>

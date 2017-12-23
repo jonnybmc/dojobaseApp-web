@@ -23,6 +23,7 @@ var User = require('../models/user');
 
 router.get('/', function(req,res,next){
     Student.find()
+    .populate('createdBy', 'firstName')
     .exec(function(err,students){
         if (err) {
             return res.status(500).json({

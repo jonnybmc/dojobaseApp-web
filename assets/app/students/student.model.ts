@@ -11,6 +11,8 @@ export class Student {
     email? : string;
     avatarSrc?: string;
     studentId?:string;
+    createdBy?:string;
+    createdById?:string;
     
     constructor(
                 firstName:string,
@@ -24,7 +26,9 @@ export class Student {
                 contactNumber?:number,
                 email?:string,
                 avatarSrc?:string,
-                studentId?:string
+                studentId?:string,
+                createdBy?:string,
+                createdById?:string
             ) {
 
       this.firstName = firstName;
@@ -38,6 +42,8 @@ export class Student {
       this.contactNumber = contactNumber;
       this.email = email;
       this.avatarSrc = avatarSrc;
-      this.studentId = studentId
+      this.studentId = studentId;
+      this.createdBy = createdBy;
+      this.createdById = createdById;
     }
 } 
