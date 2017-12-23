@@ -26,6 +26,8 @@ import { StudentsComponent } from './students/students.component';
 import { StudentListComponent } from './students/student-list.component';
 import { StudentDetails } from './students/student-details.component';
 import Overview from './students/overview.component';
+import { ErrorComponent } from './errors/error.component';
+import { ErrorService } from './errors/error.service';
 @NgModule({
     declarations: [
         AppComponent,
@@ -44,11 +46,13 @@ import Overview from './students/overview.component';
         StudentListComponent,
         StudentDetails,
         Overview,
-        ModalComponent
+        ModalComponent,
+        ErrorComponent
     ],
     providers: [
         ModalService,
-        AuthService
+        AuthService,
+        ErrorService
     ],
     imports: [BrowserModule, FormsModule, routing, ReactiveFormsModule,HttpModule,MomentModule],
     bootstrap: [AppComponent]

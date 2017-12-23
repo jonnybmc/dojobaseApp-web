@@ -1,3 +1,4 @@
+import { ErrorService } from './../errors/error.service';
 import {Student} from "./student.model";
 import {Http,Response,Headers} from "@angular/http";
 import { Injectable, EventEmitter } from "@angular/core";
@@ -10,7 +11,7 @@ export class StudentService {
     private student:Student;
     // messageIsEdit = new EventEmitter<Message>();
     
-    constructor(private http: Http) {
+    constructor(private http: Http, private errorService : ErrorService) {
     
     } 
     addStudent(student: Student){
@@ -30,7 +31,10 @@ export class StudentService {
                 this.students.push(student);
                 return student;
             })
-            .catch((error: Response) => Observable.throw(error.json()));// request not sent as yet, only sets up an observable
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });// request not sent as yet, only sets up an observable
     }
     getStudents(){
         return this.http.get('http://localhost:3000/student')
@@ -59,7 +63,10 @@ export class StudentService {
                 this.students = transformedStudents;
                 return transformedStudents;
             })
-            .catch((error:Response) => Observable.throw(error.json()));
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
     }
     getStudent(studentId : string) {
         return this.http.get('http://localhost:3000/student/' + studentId).map((response:Response) =>{
@@ -83,7 +90,10 @@ export class StudentService {
             this.student = transformedStudent;
             return this.student;
         })
-        .catch((error:Response) => Observable.throw(error.json()));
+        .catch((error: Response) => {
+            this.errorService.handleError(error.json());
+            return Observable.throw(error.json());
+        });
 
     }
     deleteStudent(student: Student) {
@@ -91,7 +101,10 @@ export class StudentService {
         const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
         return this.http.delete('http://localhost:3000/student/' + student.studentId + token)
         .map((response:Response) => response.json())
-        .catch((error:Response) => Observable.throw(error.json()));
+        .catch((error: Response) => {
+            this.errorService.handleError(error.json());
+            return Observable.throw(error.json());
+        });
     }
 
     updateStudent(student:Student){
@@ -102,7 +115,10 @@ export class StudentService {
         const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
         return this.http.patch('http://localhost:3000/student/' + student.studentId + token,body, {headers : headers})
             .map((response: Response) => response.json())
-            .catch((error:Response) => Observable.throw(error.json()));
+            .catch((error: Response) => {
+                this.errorService.handleError(error.json());
+                return Observable.throw(error.json());
+            });
         
     }
 }

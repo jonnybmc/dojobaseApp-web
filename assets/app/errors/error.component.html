@@ -1,0 +1,11 @@
+<app-modal id="errorModal">
+    <div class="modal">
+        
+        <div class="modal-body">
+                <h1>{{error?.title}}</h1>
+                <p>{{error?.message}}</p>
+            <button (click)="closeModal('errorModal',$event);">Close</button>
+        </div>
+    </div>
+    <div class="modal-background"></div>
+</app-modal>
