@@ -81,6 +81,12 @@ export class StudentAddComponent implements OnInit{
         form.resetForm();
     }
 
+    onClear(form:NgForm){
+        this.studentDetails = null
+        form.resetForm();
+
+    }
+
     ngOnInit(){
     }
 }

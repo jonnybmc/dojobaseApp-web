@@ -15,7 +15,7 @@
         </div>
         <div class="student-edit">
             <button (click)="openModal('custom-modal-1')">Edit Details</button>
-            <button (click)="openModal('custom-modal-2')">Open Modal 2</button>
+
         </div>
     </div>
 
@@ -68,10 +68,10 @@
                                <input type="file" accept="image/*" id="avatar" class="form-control" name="avatar" (change)="fileChange($event)">
                                <img src={{this.image}} alt="">
                         </div> -->
-                        <button type="button" class="btn btn-danger" (click)="onClear(studentForm)">Clear</button>
+                        <button class="btn btn-danger" (click)="closeModal('custom-modal-1',$event);">Close</button>
                         <button class="btn btn-primary" type="submit">Save</button>
                     </form>
-                <button (click)="closeModal('custom-modal-1',$event);">Close</button>
+               
             </div>
         </div>
         <div class="modal-background"></div>
