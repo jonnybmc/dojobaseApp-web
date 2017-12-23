@@ -16,28 +16,11 @@ var userRoutes = require('./routes/user');
 
 //initialize app
 var app = express();
-mongoose.connect('localhost:27017/node-angular');
+mongoose.connect('admin:adminpassword@ds123725.mlab.com:23725/dojobase-db');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-
-// //set storage engine for multer
-// var storage = multer.diskStorage({
-//     destination : './public/uploads/',
-//     filename: function(req,file,cb){
-//         cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-//     }
-// });
-
-// // Initiialize the upload 
-// var upload = multer({
-//     storage : storage
-// }).single('avatar');
-
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
