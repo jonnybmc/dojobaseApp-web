@@ -1,21 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var multer = require('multer');
 var path = require('path');
 var jwt = require('jsonwebtoken');
-
-//set storage engine for multer
-var storage = multer.diskStorage({
-    destination : '../public/uploads/',
-    filename: function(req,file,cb){
-        cb(null,file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-    }
-});
-
-// Initiialize the upload 
-var upload = multer({
-    dest : storage
-}).single('avatar');
 
 
 var Student = require('../models/student');
