@@ -21,7 +21,8 @@ export class StudentService {
         const headers = new Headers({
             'Content-Type' : 'application/json'
         });
-        return this.http.post('http://localhost:3000/student',body,{headers: headers})
+        const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+        return this.http.post('http://localhost:3000/student' + token,body,{headers: headers})
             .map((response: Response) => {
                 const result = response.json();
                 // const student = new Student(result.obj.content,'Dummy',result.obj._id,null);
@@ -113,7 +114,8 @@ export class StudentService {
 
     deleteStudent(student: Student) {
         this.students.splice(this.students.indexOf(student),1);
-        return this.http.delete('http://localhost:3000/student/' + student.studentId)
+        const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+        return this.http.delete('http://localhost:3000/student/' + student.studentId + token)
         .map((response:Response) => response.json())
         .catch((error:Response) => Observable.throw(error.json()));
     }
@@ -123,7 +125,8 @@ export class StudentService {
         const headers = new Headers({
             'Content-Type' : 'application/json'
         });
-        return this.http.patch('http://localhost:3000/student/' + student.studentId,body, {headers : headers})
+        const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+        return this.http.patch('http://localhost:3000/student/' + student.studentId + token,body, {headers : headers})
             .map((response: Response) => response.json())
             .catch((error:Response) => Observable.throw(error.json()));
         

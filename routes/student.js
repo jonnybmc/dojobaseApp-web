@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var multer = require('multer');
 var path = require('path');
+var jwt = require('jsonwebtoken');
 
 //set storage engine for multer
 var storage = multer.diskStorage({
@@ -18,6 +19,7 @@ var upload = multer({
 
 
 var Student = require('../models/student');
+var User = require('../models/user');
 
 router.get('/', function(req,res,next){
     Student.find()
@@ -36,64 +38,77 @@ router.get('/', function(req,res,next){
 });
 
 router.get('/:id' , function(req,res,next){
-   Student.findById(req.params.id , function(err, student){
-       if (err) {
-           return res.status(500).json({
-               title : 'Oops, an error has occured',
-               error : err
-           });
-       }
-       res.status(200).json({
-           title : 'Success',
-           obj : student
-       });
-   });
-});
-
-router.post('/', function(req,res,next){
-    // var path = '';
-    // upload(req,res, function(err){
-    //     if (err) {
-    //         console.log(err);
-    //         return res.status(422).json({
-    //             title : 'an error occured',
-    //             error : err
-    //         });
-    //     }
-    //     path = req.file;
-    //     console.log(path);
-        
-    //     return res.send("Upload Completed for " + path);
-    // });
-    var student = new Student({
-        firstName : req.body.firstName,
-        lastName : req.body.lastName,
-        gender : req.body.gender,
-        dateOfBirth : req.body.dateOfBirth,
-        streetAddress : req.body.streetAddress,
-        city : req.body.city,
-        zipCode : req.body.zipCode,
-        rank : req.body.rank,
-        contactNumber : req.body.contactNumber,
-        email : req.body.email,
-        avatarSrc : req.body.avatarSrc
-
-    });
-    student.save(function(err,result){
+    Student.findById(req.params.id , function(err, student){
         if (err) {
             return res.status(500).json({
-                title : 'An error has occured',
-                error: err
+                title : 'Oops, an error has occured',
+                error : err
             });
         }
-        res.status(201).json({
-            message : 'a new student has been added',
-            obj : result
+        res.status(200).json({
+            title : 'Success',
+            obj : student
         });
     });
+ });
+
+//intentionally placed below standard get('/') so it can safeguard any routes after that one.
+router.use('/', function(req,res,next){
+        jwt.verify(req.query.token, 'secret', function(err,decoded){
+            if (err) {
+                return res.status(401).json({
+                    title : 'Not Authenticated',
+                    error : err
+                });
+            }
+            next();
+        });
+});
+
+
+router.post('/', function(req,res,next){
+    var decoded = jwt.decode(req.query.token);
+    User.findById(decoded.user._id, function(err, user){
+        if (err) {
+            return res.status(500).json({
+                title : 'An error occured',
+                error : err
+            });
+        }
+        var student = new Student({
+            firstName : req.body.firstName,
+            lastName : req.body.lastName,
+            gender : req.body.gender,
+            dateOfBirth : req.body.dateOfBirth,
+            streetAddress : req.body.streetAddress,
+            city : req.body.city,
+            zipCode : req.body.zipCode,
+            rank : req.body.rank,
+            contactNumber : req.body.contactNumber,
+            email : req.body.email,
+            avatarSrc : req.body.avatarSrc,
+            createdBy : user._id
+        });
+        student.save(function(err,result){
+            if (err) {
+                return res.status(500).json({
+                    title : 'An error has occured',
+                    error: err
+                });
+            }
+            user.students.push(result);
+            user.save();
+            res.status(201).json({
+                message : 'a new student has been added',
+                obj : result
+            });
+        });
+
+    });   
 });
 
 router.patch('/:id', function(req,res,next){
+    var decoded = jwt.decode(req.query.token);
     Student.findById(req.params.id, function(err,student){
         if (err) {
             return res.status(500).json({
@@ -105,6 +120,12 @@ router.patch('/:id', function(req,res,next){
             return res.status(500).json({
                 title : 'Message not found',
                 error : {student : 'Message not found'}
+            });
+        }
+        if (student.createdBy != decoded.user._id) {
+            return res.status(401).json({
+                title : 'Not authenticated',
+                error : {message : 'Users do not match'}
             });
         }
         student.firstName = req.body.firstName;
@@ -134,6 +155,7 @@ router.patch('/:id', function(req,res,next){
 });
 
 router.delete('/:id', function(req,res,next){
+    var decoded = jwt.decode(req.query.token);
     Student.findById(req.params.id, function(err,student){
         if (err) {
             return res.status(500).json({
@@ -145,6 +167,12 @@ router.delete('/:id', function(req,res,next){
             return res.status(500).json({
                 title : 'Student not found',
                 error : {student : 'Message not found'}
+            });
+        }
+        if (student.createdBy != decoded.user._id) {
+            return res.status(401).json({
+                title : 'Not authenticated',
+                error : {message : 'Users do not match'}
             });
         }
         student.remove(function(err,result){

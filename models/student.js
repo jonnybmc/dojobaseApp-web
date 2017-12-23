@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var mongooseUniqueValidator = require ('mongoose-unique-validator');
 
+var User = require('./user');
 
 var schema = new Schema({
     firstName : {
@@ -45,8 +46,19 @@ var schema = new Schema({
     },
     avatarSrc : {
         type : String
+    },
+    createdBy : {
+        type : Schema.Types.ObjectId,
+        ref : 'User'
     }
 
+});
+
+schema.post('remove', function(student){
+    User.findById(student.createdBy, function(err,user){
+        user.students.pull(student._id);
+        user.save();
+    });
 });
 
 schema.plugin(mongooseUniqueValidator);

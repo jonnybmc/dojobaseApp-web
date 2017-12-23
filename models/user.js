@@ -19,11 +19,15 @@ var schema = new Schema({
         type:String,
         required:true,
         unique:true
-    }
+    },
     // messages : [{
     //     type:Schema.Types.ObjectId, 
     //     ref: 'Message'
-    // }]
+    // }],
+    students : [{
+        type : Schema.Types.ObjectId,
+        ref : 'Student'
+    }]
 });
 
 schema.plugin(mongooseUniqueValidator);
